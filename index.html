@@ -1,0 +1,135 @@
+
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>ProductViewer Demo</title>
+		<script src="http://code.jquery.com/jquery.min.js"></script>
+		<script type="text/javascript" language="JavaScript" src="js/productViewer.js"></script>
+		<style type="text/css">
+			/*.outer-panel{width:400px; margin:10px auto; display:none;}*/
+			.product-panel{
+				width: 660px;
+				height: 535px;
+				margin:0px auto; 
+				border:2px solid #CECECE;
+				position: relative;;
+			}
+			.image-panel{
+				/*display:none; */
+				overflow:hidden;
+				height: 500px;
+				width: 660px;
+				position: relative;
+			}
+			.image-panel img{
+				position: absolute;
+			}
+
+			.tool-panel{
+				/*text-align: center;*/
+				background-color: #F2F2F2;
+				height: 35px;
+			}
+			.tool-panel input.range{
+				width: 240px;
+				vertical-align: middle;
+				margin-left: 10px;
+			}
+			.tool-panel div{
+			    display: block;
+			    float: left;
+			    padding: 5px;
+			}
+
+			.tool-panel div label{
+				font-size: 14px;
+			    color: #666666;
+			    font-weight: bold;
+			}
+
+			.tool-panel div.spin{
+				margin-left: 70px;
+			}
+
+			.tool-panel div.zoom{
+				margin-left: 50px;
+			}
+			
+			.tool-panel div.zoom .add, 
+			.tool-panel div.zoom .sub, 
+			.tool-panel div.zoom .reset{
+				font-size: 12px;
+			    min-width: 24px;
+			    height: 24px;
+			    text-align: center;
+			    font-weight: bold;
+			    color: #666666
+			}
+			.loading{
+				position: absolute;
+			    top: 50%;
+			    left: 50%;
+			    width: 130px;
+			    margin-left: -65px;
+			    margin-top: -9px;
+			    display: none;
+			}
+			.loading em{
+				font-size: 13px;
+			    color: #666666;
+			    margin-left: 2px;
+			}
+		</style>
+		<script type="text/javascript">
+			$(document).ready(function(){
+				// $('.product-panel').each(function(){$(this).productViewer({baseName:"http://scmesos04/test/roger/image_"})});
+				// $('.product-panel').each(function(){$(this).productViewer({baseName:"http://s1qdfis01/test/roger/image_"})});
+				// $('.product-panel').each(function(){
+				//  	$(this).productViewer({baseName:"http://neg-app-img/testgroup/testtype/30-120-741-R"});
+				//  });
+
+				// $('.product-panel').each(function(){$(this).productViewer({
+				// 	baseName:"http://neg-app-img/testgroup/testtype/30-120-741-R",
+				// 	width:2304, 
+				// 	height:1728,
+				// 	maxZoomCount:0,
+				// 	forceSize:true
+				// 	})
+				// });
+
+				$('.product-panel').each(function(){$(this).productViewer({
+					baseName:"images/product/30-120-741-R",
+					width:2304, 
+					height:1728,
+					imageCount:20,
+					maxZoomCount:0,
+					forceSize:true
+					})
+				});
+
+			 });
+		</script>
+	</head>
+	<body>
+		<div class="product-panel">
+			<!-- <div class="loading"><img src="images/loading.gif" /><em>10%</em></div> -->
+			
+			<div class="image-panel">
+				<!-- <img src="http://neg-app-img/testgroup/testtype/30-120-741-R1.jpg"> -->
+			</div>
+			<div class="tool-panel">
+				<div class="spin">
+					<label>Spin</label> 
+					<input class="range" type="range"  id="image-range" value="1" min="1" max="24">
+				</div>
+				<div class="zoom">
+					<label>Zoom</label> 
+					<input class="add" type="button"  id="add" value="+">
+					<input class="sub" type="button"  id="sub" value="-">
+					<input class="reset" type="button"  id="reset" value="Reset">
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
