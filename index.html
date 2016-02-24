@@ -89,24 +89,23 @@
 				//  	$(this).productViewer({baseName:"http://neg-app-img/testgroup/testtype/30-120-741-R"});
 				//  });
 
-				// $('.product-panel').each(function(){$(this).productViewer({
-				// 	baseName:"http://neg-app-img/testgroup/testtype/30-120-741-R",
-				// 	width:2304, 
-				// 	height:1728,
-				// 	maxZoomCount:0,
-				// 	forceSize:true
-				// 	})
-				// });
-
 				$('.product-panel').each(function(){$(this).productViewer({
-					baseName:"images/product/30-120-741-R",
-					width:2304, 
-					height:1728,
-					imageCount:20,
-					maxZoomCount:0,
-					forceSize:true
+					baseName:"http://neg-app-img/testgroup/testtype/30-120-741-R",
+					width:660, 
+					height:500,
+					maxZoomCount:1,
+					maxLocalZoomCount:2
 					})
 				});
+
+				// $('.product-panel').each(function(){$(this).productViewer({
+				// 	baseName:"images/product/30-120-741-R",
+				// 	width:660, 
+				// 	height:500,
+				// 	imageCount:20,
+				// 	maxZoomCount:0
+				// 	})
+				// });
 
 			 });
 		</script>

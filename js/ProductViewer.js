@@ -14,6 +14,7 @@ $.fn.productViewer = function(options) {
             width:660,   //初始化图片宽
             height:500,  //初始化图片高
             maxZoomCount:2, //最大请求服务器放大次数
+            maxLocalZoomCount:2, // 本地最大放大次数
             zoomTime : 1.5, //放大倍数
             zoomSpeed : 400,
             forceSize:false //强制设置图片的大小为容器的宽度
@@ -94,7 +95,7 @@ $.fn.productViewer = function(options) {
 					from = from + 1;
 				}
 				_loadedData = _loaded[from - 1] 			
-				$viewerImage.attr("src", _buildImageSrc(from) + _imageQuery(_loadedData.width, _loadedData.height));
+				$viewerImage.attr("src", _loadedData.url);
 				_change(from, to);
 			}
 		}, speed);
@@ -121,7 +122,7 @@ $.fn.productViewer = function(options) {
 				}
 			};
 			oNewImg.src= _buildImageSrc(i) + imageQuery;
-			loaded[i-1] = {"width":width, "height": height, "loadCount" : 1};
+			loaded[i-1] = {"width":width, "height": height, "loadCount" : 1, "url": oNewImg.src};
 		}
 		return loaded;
 	};
@@ -173,12 +174,22 @@ $.fn.productViewer = function(options) {
 		if(currentLoaded.height < height || currentLoaded.width < width){
 			var oldSrc = $current.attr("src");
 			var newImage = $current.clone()[0];
+			var newSrc = oldSrc.substring(0, oldSrc.indexOf("?"));
+			if(!newSrc){
+				console.log("new src: ", newSrc)
+				return;
+			}
 			newImage.onload = _loadFun(_options.currentImage, width, height);
-			newImage.src =  oldSrc.substring(0, oldSrc.indexOf("?")) + _imageQuery(width, height);
-
+			// get thunbnail
+			if(currentLoaded.loadCount < _options.maxZoomCount - 1){
+				newSrc = newSrc + _imageQuery(width, height);
+			}
+			
+			newImage.src = newSrc
 			currentLoaded.width = width;
 			currentLoaded.height = height;
 			currentLoaded.loadCount += 1;
+			currentLoaded.url = newSrc
 		}
 
 	};
@@ -187,6 +198,7 @@ $.fn.productViewer = function(options) {
 		return function(){
 			if (currentImage == options.currentImage){
 					$viewerImage.attr("src", this.src);
+					console.log("loaded new image");
 				}
 			}; 
 	};
@@ -212,6 +224,9 @@ $.fn.productViewer = function(options) {
 	});
 
 	$zoomAdd.on("click", function(){
+		if (zoomCount >= options.maxLocalZoomCount){
+			return;
+		}
 		var $img = $viewerImage,
 		new_width = $img.width()* options.zoomTime,
 			new_height = $img.height()*options.zoomTime;
@@ -279,7 +294,7 @@ $.fn.productViewer = function(options) {
 		}
 	});
 
-	$imagePanel.on("mouseup", function(){
+	$(document).on("mouseup", function(){
 		move = false;
 		$viewerImage.css("cursor", "");
 	});
